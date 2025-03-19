@@ -7,11 +7,12 @@
 <?php
     if(isset($_POST["acct"])){
             $filename="member.csv";
+            $member=json_decode($all,true);
             if(file_exists($filename)){
-                $fp=fopen($filename,"r");
-                while(($member=fgetcsv($fp,1000))!==FALSE){
-                    if(0==strcmp($member[0],$_POST["acct"])&& password_verify($_POST["pass"],$member[1]))
-                    printf("alert('歡迎登入=，%s',$member[1])");
+                $all=file_get_contents($filename);
+                foreach($member as $m){
+                    if(0==strcmp($member[0],$_POST["acct"])&& password_verify($_POST["pass"],$m["name"]))
+                    printf("alert('歡迎登入=，%s',$m[name])");
                     printf("location.href='login.php';");
 
                     break;

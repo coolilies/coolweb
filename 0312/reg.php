@@ -1,28 +1,32 @@
 
 <html>
     <head>
+    <title>註冊會員</title>
+    <meta charset="UTF-8"> 
        <script>
 <?php
     if(isset($_POST["acct"])){
         if(strcmp($_POST["pass1"],$_POST["pass2"])){
-            printf("alert('密碼不一致');")
-        } else {
+            printf("alert('密碼不一致');");
+        }else{
             $filename="member.csv";
             $newmember=true;
             if(file_exists($filename)){
                 $fp=fopen($filename,"r");
                 while(($member=fgetcsv($fp,1000))!==FALSE){
-                    if(0==strcmp($member[0],$_POST["acct"]))
-                    printf("alert('會員已存在')")
+                    if(0==strcmp($member[0],$_POST["acct"])){
+                    printf("alert('會員已存在')");
                     $newmember=false;
                     break;
+                    }
                 }
+                fclose($fp);
             }
             if($nemmember){
                 $fp=fopen("member.csv","a");
-                fputcsv($fp,[$_POST["acct"],$_POST["name"],password_hash($_POST["pass1"],PASSWORD_DEFAILT)]);
+                fputcsv($fp,[$_POST["acct"],$_POST["name"],password_hash($_POST["pass1"],PASSWORD_DEFAULT)]);
                 fclose($fp);
-                peintf("location.href='login.php';")
+                printf("location.href='login.php';");
         
         
             }
@@ -37,8 +41,7 @@
 
 ?>
 </script>
-        <title>註冊會員</title>
-        <meta charset="UTF-8">  
+         
     </head>
     <body>
         <H1>註冊會員</H1>
